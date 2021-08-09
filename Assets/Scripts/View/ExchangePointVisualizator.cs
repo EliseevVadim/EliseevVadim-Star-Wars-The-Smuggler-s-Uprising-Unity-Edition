@@ -1,0 +1,29 @@
+﻿using Game.Services;
+using UnityEngine;
+
+namespace Game.View
+{
+    class ExchangePointVisualizator : MonoBehaviour
+    {
+        [SerializeField] private ExchangeSlotPresenter _exchangeSlotTemplate;
+        [SerializeField] private Transform _container;
+        [SerializeField] private ExchangePoint _exchangePoint;
+
+        public void Start()
+        {
+            Render(_exchangePoint);
+        }
+        public void Render(ExchangePoint exchangePoint)
+        {
+            foreach (Transform slot in _container)
+            {
+                Destroy(slot.gameObject);
+            }
+            exchangePoint.Items.ForEach(item =>
+            {
+                var slotView = Instantiate(_exchangeSlotTemplate, _container);
+                slotView.Visualize(item);
+            });
+        }
+    }
+}
